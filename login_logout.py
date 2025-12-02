@@ -7,6 +7,7 @@ from flask_bcrypt import Bcrypt
 from forgotpassword import *
 import string
 import random
+import uuid
 
 
 bcrypt = Bcrypt()
@@ -57,30 +58,38 @@ def register():
                               ]
             avatar = f'https://api.dicebear.com/7.x/adventurer/svg?seed={random.choice(male_avatars)}'
 
+            student_id = str(random.randint(1000000000, 9999999999))
             cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO student (first_name, middle_name,\
-                        last_name, date_of_birth,\
-                        email, password, profile_avatar)"
-                        "VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                        (firstName, middleName, lastName, date,
+            cur.execute("INSERT INTO student (id, first_name, middle_name,\n                        last_name, date_of_birth,\n                        email, password, profile_avatar)"
+                        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                        (student_id, firstName, middleName, lastName, date,
                          email, hashed_password, avatar))
             mysql.connection.commit()
             cur.close()
             code = generate_random_code()
             session['code'] = code
             session['temp_mail'] = email
-            html_body = render_template('email_code.html',
-                                        verification_code=code,
-                                        message="Registration")
-            msg = Message(
-                'Verification Code',
-                sender='mostafa51mokhtar@gmail.com',
-                recipients=[email],
-                html=html_body
-            )
-            mail.send(msg)
+            
+            # MOCK EMAIL: Print code to console
+            print(f"\n\n[MOCK EMAIL] Verification Code for {email}: {code}\n\n")
+
+            try:
+                html_body = render_template('email_code.html',
+                                            verification_code=code,
+                                            message="Registration")
+                msg = Message(
+                    'Verification Code',
+                    sender='mostafa51mokhtar@gmail.com',
+                    recipients=[email],
+                    html=html_body
+                )
+                mail.send(msg)
+            except Exception as e:
+                print(f"Email sending failed (expected in dev): {e}")
+
             return redirect('/verifyRegister')
     return render_template("registerStudent.html", form=form)
+
 
 
 @app.route('/registerTeacher', methods=['GET', 'POST'])
@@ -121,16 +130,24 @@ def registerTeacher():
             code = generate_random_code()
             session['code'] = code
             session['temp_mail'] = email
-            html_body = render_template('email_code.html',
-                                        verification_code=code,
-                                        message="Registration")
-            msg = Message(
-                'Verification Code',
-                sender='mostafa51mokhtar@gmail.com',
-                recipients=[email],
-                html=html_body
-            )
-            mail.send(msg)
+            
+            # MOCK EMAIL: Print code to console
+            print(f"\n\n[MOCK EMAIL] Verification Code for {email}: {code}\n\n")
+
+            try:
+                html_body = render_template('email_code.html',
+                                            verification_code=code,
+                                            message="Registration")
+                msg = Message(
+                    'Verification Code',
+                    sender='mostafa51mokhtar@gmail.com',
+                    recipients=[email],
+                    html=html_body
+                )
+                mail.send(msg)
+            except Exception as e:
+                print(f"Email sending failed (expected in dev): {e}")
+
             return redirect('/verifyRegister')
 
     return render_template("registerTeacher.html", form=form)

@@ -6,15 +6,19 @@ from flask_mail import Mail, Message
 from flask_bcrypt import Bcrypt
 import random
 import string
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 bcrypt = Bcrypt()
 
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'mlord62716@gmail.com'
-app.config['MAIL_PASSWORD'] = 'omoi lzmv wior qicw'
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
+app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL') == 'True'
 
 mail = Mail(app)
 
@@ -43,16 +47,24 @@ def forgotpassword():
             code = generate_random_code()
             session['code'] = code
             session['temp_mail'] = email
-            html_body = render_template('email_code.html',
-                                        verification_code=code,
-                                        message="Password Reset")
-            msg = Message(
-                'Verification Code',
-                sender='mostafa51mokhtar@gmail.com',
-                recipients=[email],
-                html=html_body
-            )
-            mail.send(msg)
+            
+            # MOCK EMAIL: Print code to console
+            print(f"\n\n[MOCK EMAIL] Password Reset Code for {email}: {code}\n\n")
+
+            try:
+                html_body = render_template('email_code.html',
+                                            verification_code=code,
+                                            message="Password Reset")
+                msg = Message(
+                    'Verification Code',
+                    sender='mostafa51mokhtar@gmail.com',
+                    recipients=[email],
+                    html=html_body
+                )
+                mail.send(msg)
+            except Exception as e:
+                print(f"Email sending failed (expected in dev): {e}")
+
             return redirect('/verify_code')
         else:
             flash('Email does not exist', "danger")

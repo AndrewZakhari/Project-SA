@@ -1,0 +1,9 @@
+Flask
+Flask-Session
+Flask-Bcrypt
+Flask-Mail
+Flask-WTF
+email_validator
+pymysql
+pandas
+python-dotenv

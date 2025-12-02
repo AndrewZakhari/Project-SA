@@ -150,7 +150,10 @@ def get_subjects(subs_id):
         result = cur.fetchone()
         if result:
             sub_id, name, code, created_date = result
-            created_year = created_date.year if created_date else None
+            if isinstance(created_date, str):
+                created_year = created_date[:4]
+            else:
+                created_year = created_date.year if created_date else None
             logo = name.split()
             logo = f'{logo[0][0]}{logo[0][1]}' if type(
                 logo) is list else f'{logo[0:2]}'
