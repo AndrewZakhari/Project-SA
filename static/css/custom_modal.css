@@ -1,0 +1,12 @@
+.modal-backdrop {
+    background-color: transparent !important;
+    pointer-events: none !important;
+}
+
+.modal {
+    pointer-events: none !important;
+}
+
+.modal-dialog {
+    pointer-events: auto !important;
+}
