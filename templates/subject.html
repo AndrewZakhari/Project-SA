@@ -11,120 +11,121 @@
 	{% endif %}
 	{% endwith %}
 </div>
-<section class="container-fluid">
-	<div class="row sticky-sm-top">
-		<nav class="navbar navbar-expand-lg bg-body-tertiary text-light bg-dark" data-bs-theme="dark">
-			<div class="container-fluid">
-				<a class="navbar-brand text-light fs-2 " href="/home">MyPortal</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-					data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-					aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarNavDropdown">
-					<ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link text-light" href="/subject/{{code}}"> Subject </a>
-						</li>
 
-						<li class="nav-item">
-							<a class="nav-link text-light" href="/subject/{{code}}/book">Book</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-light" href="/subject/{{code}}/chat">General Chat</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-light" href="/subject/{{code}}/news">Announcement Chat</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-light" href="/subject/{{code}}/grades">Grades</a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-light" href="#" role="button"
-								data-bs-toggle="dropdown" aria-expanded="false">
-								Lectures
-							</a>
-							<ul class="dropdown-menu">
-								{% for lec in lecs %}
-								<li><a class="dropdown-item" href="/subject/{{ code }}/lecture/{{lec[1]}}">Lecture
-										{{lec[0]}}</a></li>
-								{% endfor %}
-								{% if role == "teacher"%}
-								<li><a class="dropdown-item" href="/subject/{{ code }}/add_lecture">Add Lecture</a></li>
-								{% endif %}
-							</ul>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-light" href="#" role="button"
-								data-bs-toggle="dropdown" aria-expanded="false">
-								Quizzes
-							</a>
-							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="/subject/{{ code }}/quiz_room">Quizzes Room</a></li>
-								{% if role == "teacher"%}
-								<li><a class="dropdown-item" href="/subject/{{ code }}/add_quiz">Add Quiz</a></li>
-								{% endif %}
-							</ul>
-						</li>
-						{% if role == "teacher"%}
-						<li class="nav-item">
-							<a class="nav-link text-light" href="/subject/{{ code }}/students">List Students</a>
-						</li>
-						{% endif %}
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</div>
+<section class="container-fluid">
+    <!-- Modern Sub-Navigation -->
+    <div class="sub-nav">
+        <a class="sub-nav-link" href="/home"><i class="bi bi-arrow-left me-2"></i>Back</a>
+        <a class="sub-nav-link active" href="/subject/{{code}}">Subject Home</a>
+        <a class="sub-nav-link" href="/subject/{{code}}/book">Book</a>
+        <a class="sub-nav-link" href="/subject/{{code}}/chat">General Chat</a>
+        <a class="sub-nav-link" href="/subject/{{code}}/news">Announcements</a>
+        <a class="sub-nav-link" href="/subject/{{code}}/grades">Grades</a>
+        
+        <div class="dropdown d-inline-block">
+            <a class="sub-nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Lectures
+            </a>
+            <ul class="dropdown-menu">
+                {% for lec in lecs %}
+                <li><a class="dropdown-item" href="/subject/{{ code }}/lecture/{{lec[1]}}">Lecture {{lec[0]}}</a></li>
+                {% endfor %}
+                {% if role == "teacher"%}
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/subject/{{ code }}/add_lecture">Add Lecture</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="dropdown d-inline-block">
+            <a class="sub-nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Quizzes
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/subject/{{ code }}/quiz_room">Quizzes Room</a></li>
+                {% if role == "teacher"%}
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/subject/{{ code }}/add_quiz">Add Quiz</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        {% if role == "teacher"%}
+        <a class="sub-nav-link" href="/subject/{{ code }}/students">List Students</a>
+        {% endif %}
+    </div>
+
 	<div class="row">
 		{% if main_page %}
-		<div class="h-100 col">
-			<div class="m-2">
-				<div class="text-center">
+		<div class="col-12">
+            <div class="glass-card">
+                <h2 class="mb-4">Subject Dashboard</h2>
+                
+                <div class="row g-4">
+                    <!-- Lectures Section -->
+                    <div class="col-md-6">
+                        <h4 class="mb-3">Lectures</h4>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for lec in lecs %}
+                            <a href="/subject/{{ code }}/lecture/{{lec[1]}}" class="btn btn-outline-primary">
+                                Lecture {{lec[0]}}
+                            </a>
+                            {% endfor %}
+                            {% if role == "teacher" %}
+                            <a href="/subject/{{ code }}/add_lecture" class="btn btn-primary">
+                                <i class="bi bi-plus-lg"></i> Add Lecture
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
 
-					{% for lec in lecs %}
-					<div class="d-inline-flex m-1">
-						<!-- url is true -->
-						<a href="/subject/{{ code }}/lecture/{{lec[1]}}"><button
-								class="py-3 px-5 btn-outline-primary rounded">Lecture {{lec[0]}}</button></a>
-					</div>
-					{% endfor %}
-					<!-- session	 -->
-					{% if role == "teacher" %}
-					<div class="d-inline-flex m-1">
-						<a href="/subject/{{ code }}/add_lecture"><button
-								class="py-3 px-5 btn-outline-primary rounded"><i class="bi bi-plus-lg"></i></button></a>
-					</div>
-					{% endif %}
-				</div>
-				<div class="mx-5">
-					<hr>
-				</div>
-				<div class="row">
-					<div class="col m-3 text-start">
-						<a href="/subject/{{ code }}/grades"><button
-								class="py-3 px-5 btn-outline-primary rounded">Grades</button></a>
-					</div>
-					<div class="col m-3 text-end">
-						<a href="/subject/{{ code }}/quiz_room"><button
-								class="py-3 px-5 btn-outline-primary rounded">Quizes</button></a>
-					</div>
-				</div>
-				<div class="mx-5">
-					<hr>
-				</div>
-				<div class="row m-3 p-3 text-center bg-light border border-2 border-primary rounded">
-					<a href="/subject/{{ code }}/chat">General Chat</a>
-				</div>
-				<div class="row m-3 p-3 text-center bg-light border border-2 border-primary rounded">
-					<a href="/subject/{{ code }}/news">Announcement Chat</a>
-				</div>
-			</div>
+                    <!-- Quick Actions -->
+                    <div class="col-md-6">
+                        <h4 class="mb-3">Quick Actions</h4>
+                        <div class="d-grid gap-2 d-md-flex">
+                            <a href="/subject/{{ code }}/grades" class="btn btn-modern flex-fill text-center">
+                                <i class="bi bi-bar-chart-fill me-2"></i>Grades
+                            </a>
+                            <a href="/subject/{{ code }}/quiz_room" class="btn btn-modern flex-fill text-center" style="background: linear-gradient(135deg, #ff9966, #ff5e62);">
+                                <i class="bi bi-pencil-square me-2"></i>Quizzes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4" style="opacity: 0.1;">
+
+                <!-- Chats -->
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <a href="/subject/{{ code }}/chat" class="text-decoration-none">
+                            <div class="p-4 rounded-3 text-center" style="background: rgba(108, 99, 255, 0.1); border: 1px solid rgba(108, 99, 255, 0.2);">
+                                <i class="bi bi-chat-dots fs-2 mb-2 d-block" style="color: var(--primary-color);"></i>
+                                <h5 style="color: var(--primary-color);">General Chat</h5>
+                                <p class="text-muted mb-0">Discuss with classmates</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="/subject/{{ code }}/news" class="text-decoration-none">
+                            <div class="p-4 rounded-3 text-center" style="background: rgba(0, 210, 255, 0.1); border: 1px solid rgba(0, 210, 255, 0.2);">
+                                <i class="bi bi-megaphone fs-2 mb-2 d-block" style="color: var(--accent-color);"></i>
+                                <h5 style="color: var(--accent-color);">Announcements</h5>
+                                <p class="text-muted mb-0">Important updates</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
 		</div>
 		{% else %}
-		{% block subject_page %}{% endblock %}
+            <!-- Child templates will render here -->
+            <div class="col-12">
+                <div class="glass-card">
+		            {% block subject_page %}{% endblock %}
+                </div>
+            </div>
 		{% endif %}
-	</div>
 	</div>
 </section>
 

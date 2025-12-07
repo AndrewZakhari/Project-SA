@@ -13,9 +13,8 @@
 
 <body>
 	<div class="container d-flex justify-content-center align-items-center min-vh-100">
-		<div class="row border rounded-5 p-3 bg-white shadow box-area">
-			<div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box"
-				style="background: #103cbe;">
+		<div class="row box-area">
+			<div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box">
 
 				<div class="featured-image mb-3">
 					<img src="{{ url_for('static', filename='images/login_register.png') }}"" class=" img-fluid"
@@ -56,13 +55,13 @@
 								{% endfor %}
 							</div>
 							{% else %}
-							{{ form.email(class="form-control form-control-lg bg-light fs-6",
+							{{ form.email(class="form-control text-black form-control-lg bg-light fs-6",
 							placeholder="Email address") }}
 							{% endif %}
 						</div>
 						<div class="input-group mb-1">
 							{%if form.password.errors%}
-							{{ form.password(class="form-control form-control-lg bg-light fs-6 is-invalid",
+							{{ form.password(class="form-control text-black form-control-lg bg-light fs-6 is-invalid",
 							placeholder="Password")}}
 							<div class="invalid-feedback">
 								{% for error in form.password.errors %}
@@ -70,7 +69,7 @@
 								{% endfor %}
 							</div>
 							{% else %}
-							{{ form.password(class="form-control form-control-lg bg-light fs-6",
+							{{ form.password(class="form-control text-black form-control-lg bg-light fs-6",
 							placeholder="Password")}}
 							{% endif %}
 						</div>

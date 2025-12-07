@@ -1,9 +1,8 @@
 {% extends "base.html"%}
 {% block content%}
 	<div class="container d-flex justify-content-center align-items-center min-vh-100">
-		<div class="row border rounded-5 p-3 bg-white shadow box-area">
-			<div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box"
-				style="background: #103cbe;">
+		<div class="row box-area">
+			<div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box">
 				<div class="featured-image mb-3">
 					<img src="{{ url_for('static', filename='images/photo.png') }}" class="img-fluid"
 						style="width: 225px;">

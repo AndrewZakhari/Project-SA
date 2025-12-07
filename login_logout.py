@@ -10,7 +10,7 @@ import random
 import uuid
 
 
-bcrypt = Bcrypt()
+bcrypt = Bcrypt(app)
 
 
 def generate_random_code(length=6):
@@ -60,34 +60,15 @@ def register():
 
             student_id = str(random.randint(1000000000, 9999999999))
             cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO student (id, first_name, middle_name,\n                        last_name, date_of_birth,\n                        email, password, profile_avatar)"
-                        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+            cur.execute("INSERT INTO student (id, first_name, middle_name,\n                        last_name, date_of_birth,\n                        email, password, profile_avatar, email_verified)"
+                        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, 1)",
                         (student_id, firstName, middleName, lastName, date,
                          email, hashed_password, avatar))
             mysql.connection.commit()
             cur.close()
-            code = generate_random_code()
-            session['code'] = code
-            session['temp_mail'] = email
             
-            # MOCK EMAIL: Print code to console
-            print(f"\n\n[MOCK EMAIL] Verification Code for {email}: {code}\n\n")
-
-            try:
-                html_body = render_template('email_code.html',
-                                            verification_code=code,
-                                            message="Registration")
-                msg = Message(
-                    'Verification Code',
-                    sender='mostafa51mokhtar@gmail.com',
-                    recipients=[email],
-                    html=html_body
-                )
-                mail.send(msg)
-            except Exception as e:
-                print(f"Email sending failed (expected in dev): {e}")
-
-            return redirect('/verifyRegister')
+            flash('Registration successful. Please login.', 'success')
+            return redirect('/login')
     return render_template("registerStudent.html", form=form)
 
 
@@ -121,34 +102,14 @@ def registerTeacher():
             cur = mysql.connection.cursor()
             avatar = 'https://raw.githubusercontent.com/LORDyyyyy/my-portal/main/static/images/teacher.png'
             cur.execute(
-                "INSERT INTO teacher (first_name, last_name, date_of_birth,\
-                email, password, profile_avatar) "
-                "VALUES (%s, %s, %s, %s, %s, %s)",
+                "INSERT INTO teacher (first_name, last_name, date_of_birth, email, password, profile_avatar, email_verified) "
+                "VALUES (%s, %s, %s, %s, %s, %s, 1)",
                 (firstName, lastName, date, email, hashed_password, avatar))
             mysql.connection.commit()
             cur.close()
-            code = generate_random_code()
-            session['code'] = code
-            session['temp_mail'] = email
             
-            # MOCK EMAIL: Print code to console
-            print(f"\n\n[MOCK EMAIL] Verification Code for {email}: {code}\n\n")
-
-            try:
-                html_body = render_template('email_code.html',
-                                            verification_code=code,
-                                            message="Registration")
-                msg = Message(
-                    'Verification Code',
-                    sender='mostafa51mokhtar@gmail.com',
-                    recipients=[email],
-                    html=html_body
-                )
-                mail.send(msg)
-            except Exception as e:
-                print(f"Email sending failed (expected in dev): {e}")
-
-            return redirect('/verifyRegister')
+            flash('Registration successful. Please login.', 'success')
+            return redirect('/login')
 
     return render_template("registerTeacher.html", form=form)
 
@@ -163,49 +124,41 @@ def logins():
         email = form.email.data
         password = form.password.data
         cur = mysql.connection.cursor()
-        cur.execute("SELECT email FROM student\
-                                WHERE email_verified = 1\
-                                UNION\
-                                SELECT email FROM teacher\
-                                WHERE email_verified = 1", )
-        existing_student = cur.fetchall()
-
-        if not existing_student:
-            flash('Email is Not verified.',
-                  'danger')
-            return redirect('/verifyRegister')
-
+        
+        # Check if user exists and get verification status
         cur.execute("""
-            SELECT email, password, id, 'student' as role
+            SELECT email, password, id, 'student' as role, email_verified
             FROM student
             WHERE email = %s
             UNION
-            SELECT email, password, id,'teacher' as role
+            SELECT email, password, id, 'teacher' as role, email_verified
             FROM teacher
             WHERE email = %s
         """, (email, email))
-
+        
         column_names = [column[0] for column in cur.description]
         result = cur.fetchone()
         cur.close()
 
         if result:
             existing_user_dict = dict(zip(column_names, result))
+            
             is_valid = bcrypt.check_password_hash(
                 existing_user_dict['password'], password)
-            email, unused_password, id, role = result
+            
+            # Unpack only the first 4 values, ignoring email_verified for session
+            email, unused_password, id, role, _ = result
+            
             if is_valid:
                 session['email'] = email
                 session['id'] = id
                 session['role'] = role
                 return redirect("/")
             else:
-                flash('Login Unsuccessful.\n\
-                      Check your email and password.',
+                flash('Login Unsuccessful.\n                      Check your email and password.',
                       'danger')
         else:
-            flash('Login Unsuccessful.\n\
-                  Check your email and password.',
+            flash('Login Unsuccessful.\n                  Check your email and password.',
                   'danger')
 
     return render_template('login.html', form=form)

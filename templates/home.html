@@ -1,11 +1,13 @@
 {% extends "base.html"%}
 {% block content%}
 <section class="container-fluid">
-	<div class="row p-1 d-none d-md-flex rounded-end-circle">
-		<h1 class="display-5">Welcome, {{ first_name }} <span class="col-3 fs-3" id="dateTime">
-			</span>
-		</h1>
+	<div class="row mb-4">
+		<div class="col-12">
+			<h1 class="display-6 fw-bold">Welcome, {{ first_name }}</h1>
+			<p class="text-muted" id="dateTime"></p>
+		</div>
 	</div>
+
 	<div>
 		{% with messages = get_flashed_messages(with_categories=true) %}
 		{% if messages %}
@@ -31,38 +33,44 @@
 		{% endif %}
 		{% endwith %}
 	</div>
-	<div class="row p-4">
+
+	<div class="row">
 		{% for sub in subs %}
-		<a class="col-1 sub-card m-2 card p-3 dark-light-card border border-5 d-flex align-items-center justify-content-center"
-			style="width: 13.5rem; height: 13.5rem;" href="/subject/{{sub.code}}" target="_blank">
-			<div class="card rounded mb-3 d-flex align-items-center
-						justify-content-center text-light fs-1 fw-bold" style="width: 5rem; height: 5rem; background: {{sub.color}};">
-				{{ sub.logo }}
-			</div>
-			<p class="card-text fs-6 text-center p-0 m-0">{{ sub.name }}</p>
-			<p class="card-text fs-6 text-center p-0 m-0">{{ sub.created_date }}</p>
-		</a>
+		<div class="col-md-4 col-lg-3 mb-4">
+			<a href="/subject/{{sub.code}}" target="_blank" class="glass-card d-flex flex-column align-items-center justify-content-center text-decoration-none h-100">
+				<div class="rounded-circle mb-3 d-flex align-items-center justify-content-center text-light fs-2 fw-bold shadow-sm" 
+					 style="width: 80px; height: 80px; background: {{sub.color}};">
+					{{ sub.logo }}
+				</div>
+				<h5 class="text-center mb-1" style="color: inherit;">{{ sub.name }}</h5>
+				<small class="text-muted">{{ sub.created_date }}</small>
+			</a>
+		</div>
 		{% endfor %}
-		<a class="col-1 sub-card m-2 card p-3 btn btn-primary dark-light-card border border-5 d-flex align-items-center justify-content-center"
-			style="width: 13.5rem; height: 13.5rem;" data-bs-toggle="modal" data-bs-target="#addSubjectModal"
-			id="myButton">
-			<div class="card rounded bg-warning mb-3 d-flex align-items-center
-			justify-content-center text-light fs-1 fw-bold" style="width: 5rem; height: 5rem;">
-				<i class="bi bi-plus fs-1 fw-bold"></i>
-			</div>
-		</a>
+
+		<div class="col-md-4 col-lg-3 mb-4">
+			<a href="#" data-bs-toggle="modal" data-bs-target="#addSubjectModal" id="myButton" 
+			   class="glass-card d-flex flex-column align-items-center justify-content-center text-decoration-none h-100"
+			   style="border: 2px dashed var(--primary-color); background: rgba(108, 99, 255, 0.05);">
+				<div class="rounded-circle mb-3 d-flex align-items-center justify-content-center text-light fs-2 fw-bold" 
+					 style="width: 80px; height: 80px; background: var(--primary-color);">
+					<i class="bi bi-plus"></i>
+				</div>
+				<h5 class="text-center mb-1" style="color: var(--primary-color);">Add Subject</h5>
+			</a>
+		</div>
 	</div>
 </section>
 
 <!-- Modal -->
 <div class="modal fade" id="addSubjectModal" tabindex="-1" aria-labelledby="addSubjectModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h1 class="modal-title fs-5 dark-light-modal" id="addSubjectModalLabel">Add Subject</h1>
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; border: none;">
+			<div class="modal-header border-0">
+				<h1 class="modal-title fs-5 fw-bold" id="addSubjectModalLabel">Add Subject</h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body dark-light-modal">
+			<div class="modal-body">
 				{% with messages = get_flashed_messages(with_categories=true) %}
 				{% if messages %}
 				{% for category, message in messages %}
@@ -77,8 +85,8 @@
 				<form method="POST" action="/home" novalidate id="addSubjectForm">
 					{{ form.hidden_tag() }}
 					{% if role == "student"%}
-					<div class="form-group mb-2">
-						{{ form.subjectCode.label(class="form-label-control") }}
+					<div class="form-group mb-3">
+						{{ form.subjectCode.label(class="form-label fw-bold") }}
 						{% if form.subjectCode.errors %}
 						{{ form.subjectCode(class="form-control is-invalid") }}
 						<div class="invalid-feedback">
@@ -98,8 +106,8 @@
 						{% endif %}
 					</div>
 					{% elif role == "teacher"%}
-					<div class="form-group mb-2">
-						{{ form.subjectName.label(class="form-label-control") }}
+					<div class="form-group mb-3">
+						{{ form.subjectName.label(class="form-label fw-bold") }}
 						{% if form.subjectName.errors %}
 						{{ form.subjectName(class="form-control is-invalid") }}
 						<div class="invalid-feedback">
@@ -112,9 +120,9 @@
 						{{ form.subjectName(class="form-control", id='user-input') }}
 						{% endif %}
 					</div>
-					<div id="email-fields" class="form-group mb-2">
+					<div id="email-fields" class="form-group mb-3">
 						{% for email in form.emails %}
-						{{ email.label(class="form-label-control") }}
+						{{ email.label(class="form-label fw-bold") }}
 						{% if email.errors %}
 						{{ email(class="form-control is-invalid") }}
 						<div class="invalid-feedback">
@@ -128,12 +136,12 @@
 						{% endif %}
 						{% endfor %}
 					</div>
-					<button type="button" onclick="addEmailField()" class="btn btn-primary">Add Secondary
+					<button type="button" onclick="addEmailField()" class="btn btn-outline-primary btn-sm mb-3">Add Secondary
 						Teacher</button>
 					<br>
-					<div id="books-fields" class="form-group mb-2">
+					<div id="books-fields" class="form-group mb-3">
 						{% for book in form.books %}
-						{{ book.label(class="form-label-control") }}
+						{{ book.label(class="form-label fw-bold") }}
 						{% if book.errors %}
 						{{ book(class="form-control is-invalid") }}
 						<script>$('#addSubjectModal').modal('show')</script>
@@ -147,7 +155,7 @@
 						{% endif %}
 						{% endfor %}
 					</div>
-					<button type="button" onclick="addBookField()" class="btn btn-primary">Add Books</button>
+					<button type="button" onclick="addBookField()" class="btn btn-outline-primary btn-sm mb-3">Add Books</button>
 					<br>
 
 					{% endif %}
@@ -163,7 +171,7 @@
 					{% endif %}
 
 			</div>
-			<div class="modal-footer">
+			<div class="modal-footer border-0">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 					Close
 				</button>
@@ -176,6 +184,15 @@
 <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 
 <script>
+	// Simple date time script
+	function updateTime() {
+		const now = new Date();
+		const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+		document.getElementById('dateTime').textContent = now.toLocaleDateString('en-US', options);
+	}
+	updateTime();
+	setInterval(updateTime, 60000);
+
 	index = 1;
 	function addEmailField()
 	{
@@ -184,7 +201,7 @@
 		var label = document.createElement('label');
 		label.setAttribute('for', `emails-${index}`);
 		label.textContent = `#${index} Secondary Teacher Email`;
-		label.classList.add('form-label-control');
+		label.classList.add('form-label', 'fw-bold', 'mt-2');
 
 		var input = document.createElement('input');
 		input.setAttribute('id', `emails-${index}`);
@@ -206,7 +223,7 @@
 		var label = document.createElement('label');
 		label.setAttribute('for', `books-${index_book}`);
 		label.textContent = `#${index_book} Google Drive Book link:`;
-		label.classList.add('form-label-control');
+		label.classList.add('form-label', 'fw-bold', 'mt-2');
 
 		var input = document.createElement('input');
 		input.setAttribute('id', `books-${index_book}`);

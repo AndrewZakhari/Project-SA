@@ -7,3 +7,26 @@
  * Debugger is active!
  * Debugger PIN: 609-535-333
 127.0.0.1 - - [02/Dec/2025 14:05:17] "[32mHEAD / HTTP/1.1[0m" 302 -
+127.0.0.1 - - [02/Dec/2025 14:30:11] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:11] "GET /static/css/login.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:11] "GET /static/images/login_register.png HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:11] "GET /static/images/google.png HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:12] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "[32mPOST /login HTTP/1.1[0m" 302 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "[32mGET / HTTP/1.1[0m" 302 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /home HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /static/css/add_quiz.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /static/css/home.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /static/css/reset_pass.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "[33mGET /static/css/subject.css HTTP/1.1[0m" 404 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /static/css/list_students.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /static/css/switch_button.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /static/css/sidebar.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /static/css/grades.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /static/css/news.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /static/css/dark-light.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /static/css/chat.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /static/js/home.js HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /static/js/switch_button.js HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /static/images/sidebar_logo.png HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 14:30:21] "GET /static/images/favicon.png HTTP/1.1" 200 -
