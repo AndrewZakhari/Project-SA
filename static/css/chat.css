@@ -45,3 +45,51 @@
 .border-top {
     border-top: 1px solid #dee2e6 !important;
 }
+
+/* Default Light Mode Styles */
+.chat-page-container {
+    background-color: #f5f7fa; /* Light background */
+}
+
+.chat-card {
+    background-color: #ffffff;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.chat-send {
+    background-color: #ffffff;
+    border-top: 1px solid #dee2e6 !important;
+}
+
+.single-message {
+    background-color: #f1f3f5 !important; /* Light grey for messages */
+    color: #212529;
+}
+
+/* Dark Mode Styles */
+body.dark-mode .chat-page-container {
+    background-color: transparent !important; /* Let global dark bg show */
+}
+
+body.dark-mode .chat-card {
+    background-color: rgba(30, 30, 30, 0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+body.dark-mode .chat-send {
+    background-color: rgba(30, 30, 30, 0.8) !important;
+    border-top: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+body.dark-mode .single-message {
+    background-color: #4a4a4a !important; /* Darker grey for messages */
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .text-muted {
+    color: #adb5bd !important; /* Lighter muted text for dark mode */
+}
+
+body.dark-mode .chat-messages {
+    /* Scrollbar styling for dark mode if needed, usually browser handles it or custom scrollbar css */
+}

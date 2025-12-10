@@ -40,7 +40,7 @@
 					{{ form.csrf_token }}
 					<div class="input-group mb-3">
 						{% if form.verification_code.errors %}
-						{{ form.verification_code(class="form-control form-control-lg bg-light fs-6 is-invalid",
+						{{ form.verification_code(class="form-control text-black form-control-lg bg-light fs-6 is-invalid",
 						placeholder="Code") }}
 						<div class="invalid-feedback">
 							{% for error in form.verification_code.errors %}
@@ -48,7 +48,7 @@
 							{% endfor %}
 						</div>
 						{% else %}
-						{{ form.verification_code(class="form-control form-control-lg bg-light fs-6",
+						{{ form.verification_code(class="form-control text-black form-control-lg bg-light fs-6",
 						placeholder="Code") }}
 						{% endif %}
 					</div>

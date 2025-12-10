@@ -45,9 +45,10 @@
 					<form method="POST" action="/login" id="loginForm" novalidate>
 						{{ form.hidden_tag() }}
 						{{ form.csrf_token }}
-						<div class="input-group mb-3">
+						<div class="mb-3">
+							<label for="email" class="form-label">Email address</label>
 							{% if form.email.errors %}
-							{{ form.email(class="form-control form-control-lg bg-light fs-6 is-invalid",
+							{{ form.email(class="form-control form-control-lg bg-light fs-6 is-invalid text-black",
 							placeholder="Email address") }}
 							<div class="invalid-feedback">
 								{% for error in form.email.errors %}
@@ -59,7 +60,8 @@
 							placeholder="Email address") }}
 							{% endif %}
 						</div>
-						<div class="input-group mb-1">
+						<div class="mb-3">
+							<label for="password" class="form-label">Password</label>
 							{%if form.password.errors%}
 							{{ form.password(class="form-control text-black form-control-lg bg-light fs-6 is-invalid",
 							placeholder="Password")}}
@@ -86,11 +88,6 @@
 						</div>
 						<div class="input-group mb-3">
 							{{ form.submit(class="btn btn-lg btn-primary w-100 fs-6") }}
-						</div>
-						<div class="input-group mb-3">
-							<button class="btn btn-lg btn-light w-100 fs-6"><img
-									src="{{ url_for('static', filename='images/google.png') }}""
-									style=" width:20px" class="me-2"><small>Sign In with Google</small></button>
 						</div>
 						<div class="row">
 							<small>Don't have an account? <a href="/path">Sign Up</a></small>

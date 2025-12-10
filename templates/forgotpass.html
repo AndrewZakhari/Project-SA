@@ -32,9 +32,10 @@
 					{% if form %}
 					{{ form.hidden_tag() }}
 					{{ form.csrf_token }}
-					<div class="input-group mb-3">
+					<div class="mb-3">
+						<label for="email" class="form-label">Email address</label>
 						{% if form.email.errors %}
-						{{ form.email(class="form-control form-control-lg bg-light fs-6 is-invalid",
+						{{ form.email(class="form-control form-control-lg bg-light fs-6 is-invalid text-black",
 						placeholder="Email address") }}
 						<div class="invalid-feedback">
 							{% for error in form.email.errors %}
@@ -42,7 +43,7 @@
 							{% endfor %}
 						</div>
 						{% else %}
-						{{ form.email(class="form-control form-control-lg bg-light fs-6",
+						{{ form.email(class="form-control form-control-lg bg-light fs-6 text-black",
 						placeholder="Email address") }}
 						{% endif %}
 					</div>

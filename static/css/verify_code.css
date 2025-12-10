@@ -28,3 +28,7 @@ body {
 .error {
     border-color: red !important;
 }
+
+.text-black {
+    color: black;
+}

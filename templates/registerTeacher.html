@@ -50,8 +50,9 @@
                     <form method="POST" action="/registerTeacher" id="registerForm" novalidate>
                         {{ form.hidden_tag() }}
                         {{ form.csrf_token }}
-                        <div class="input-group mb-3">
-                            {{ form.firstName(class="form-control form-control-lg bg-light fs-6",
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label">First Name</label>
+                            {{ form.firstName(class="form-control form-control-lg bg-light fs-6 text-black",
                             placeholder="First Name") }}
                         </div>
 
@@ -61,8 +62,9 @@
                             {% endfor %}
                         </div>
 
-                        <div class="input-group mb-3">
-                            {{ form.lastName(class="form-control form-control-lg bg-light fs-6",
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            {{ form.lastName(class="form-control form-control-lg bg-light fs-6 text-black",
                             placeholder="Last Name") }}
                         </div>
 
@@ -72,8 +74,9 @@
                             {% endfor %}
                         </div>
 
-                        <div class="input-group mb-3">
-                            {{ form.email(class="form-control form-control-lg bg-light fs-6",
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            {{ form.email(class="form-control form-control-lg bg-light fs-6 text-black",
                             placeholder="Email") }}
                         </div>
 
@@ -82,8 +85,9 @@
                             {{ error }}
                             {% endfor %}
                         </div>
-                        <div class="input-group mb-3">
-                            {{ form.password(class="form-control form-control-lg bg-light fs-6",
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            {{ form.password(class="form-control form-control-lg bg-light fs-6 text-black",
                             placeholder="Password") }}
                         </div>
 
@@ -92,8 +96,9 @@
                             {{ error }}
                             {% endfor %}
                         </div>
-                        <div class="input-group mb-3">
-                            {{ form.confirm_password(class="form-control form-control-lg bg-light fs-6",
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label">Confirm Password</label>
+                            {{ form.confirm_password(class="form-control form-control-lg bg-light fs-6 text-black",
                             placeholder="Confirm Password") }}
                         </div>
 

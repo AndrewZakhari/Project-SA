@@ -42,14 +42,14 @@
 					{{ form.csrf_token }}
 					<div class="input-group mb-3">
 						{% if form.verifyCode.errors %}
-						{{ form.verifyCode(class="form-control is-invalid", placeholder="Code") }}
+						{{ form.verifyCode(class="form-control text-black is-invalid", placeholder="Code") }}
 						<div class="invalid-feedback">
 							{% for error in form.verifyCode.errors %}
 							<span>{{ error }}</span>
 							{% endfor %}
 						</div>
 						{% else %}
-						{{ form.verifyCode(class="form-control", placeholder="Code") }}
+						{{ form.verifyCode(class="form-control text-black", placeholder="Code") }}
 						{% endif %}
 					</div>
 					<button type="submit" class="btn btn-primary">Verify Code</button>

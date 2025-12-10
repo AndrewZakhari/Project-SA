@@ -65,28 +65,11 @@ def forgotpassword():
             except Exception as e:
                 print(f"Email sending failed (expected in dev): {e}")
 
-            return redirect('/verify_code')
+            return redirect('/reset_pass')
         else:
             flash('Email does not exist', "danger")
 
     return render_template("forgotpass.html", form=form)
-
-
-@app.route('/verify_code', methods=['GET', 'POST'])
-def verify_code():
-    email = session.get('temp_mail', None)
-    if not email:
-        return redirect('/login')
-    form = Verify()
-    if form.validate_on_submit():
-        user_code = form.verifyCode.data
-        if request.method == 'POST':
-            code = session.get('code', None)
-            if code and user_code and user_code == code:
-                return redirect('/reset_pass')
-            else:
-                flash('Invalid verification code. Please try again.', "danger")
-    return render_template('verify_code.html', form=form)
 
 
 @app.route('/reset_pass', methods=['GET', 'POST'])
@@ -97,6 +80,13 @@ def reset_pass():
 
     form = resetPass()
     if form.validate_on_submit():
+        user_code = form.code.data
+        session_code = session.get('code', None)
+        
+        if not session_code or user_code != session_code:
+            flash('Invalid verification code.', 'danger')
+            return render_template('reset_pass.html', form=form)
+
         password = form.password.data
         confirmPassword = form.confrimPassword.data
 
@@ -125,6 +115,7 @@ def reset_pass():
             cur.close()
 
             session.pop('temp_mail', None)
+            session.pop('code', None)
             flash("Password successfully changed.", "success")
             return redirect('/login')
 

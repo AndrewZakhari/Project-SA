@@ -48,11 +48,12 @@
 					{% endfor %}
 					{% endif %}
 					{% endwith %}
-					<form method="POST" action="/registerStudent" id="registerForm" novalidate>
+					<form method="POST"  action="/registerStudent" id="registerForm" novalidate>
 						{{ form.hidden_tag() }}
 						{{ form.csrf_token }}
+						<label>First Name:</label>
 						<div class="input-group mb-3">
-							{{ form.firstName(class="form-control form-control-lg bg-light fs-6",
+							{{ form.firstName(class="form-control text-black form-control-lg bg-light fs-6",
 							placeholder="First Name") }}
 						</div>
 
@@ -61,8 +62,9 @@
 							{{ error }}
 							{% endfor %}
 						</div>
+						<label>Middle Name:</label>
 						<div class="input-group mb-3">
-							{{ form.middleName(class="form-control form-control-lg bg-light fs-6",
+							{{ form.middleName(class="form-control text-black form-control-lg bg-light fs-6",
 							placeholder="Middle Name") }}
 						</div>
 
@@ -71,9 +73,9 @@
 							{{ error }}
 							{% endfor %}
 						</div>
-
+						<label>Last Name:</label>
 						<div class="input-group mb-3">
-							{{ form.lastName(class="form-control form-control-lg bg-light fs-6",
+							{{ form.lastName(class="form-control text-black form-control-lg bg-light fs-6",
 							placeholder="Last Name") }}
 						</div>
 
@@ -82,9 +84,9 @@
 							{{ error }}
 							{% endfor %}
 						</div>
-
+						<label>Email:</label>
 						<div class="input-group mb-3">
-							{{ form.email(class="form-control form-control-lg bg-light fs-6",
+							{{ form.email(class="form-control text-black form-control-lg bg-light fs-6",
 							placeholder="Email") }}
 						</div>
 
@@ -93,8 +95,9 @@
 							{{ error }}
 							{% endfor %}
 						</div>
+						<label>Password:</label>
 						<div class="input-group mb-3">
-							{{ form.password(class="form-control form-control-lg bg-light fs-6",
+							{{ form.password(class="form-control text-black form-control-lg bg-light fs-6",
 							placeholder="Password") }}
 						</div>
 
@@ -103,9 +106,9 @@
 							{{ error }}
 							{% endfor %}
 						</div>
-
+						<label>Confirm Password:</label>
 						<div class="input-group mb-3">
-							{{ form.confirm_password(class="form-control form-control-lg bg-light fs-6",
+							{{ form.confirm_password(class="form-control text-black form-control-lg bg-light fs-6",
 							placeholder="Confirm Password") }}
 						</div>
 

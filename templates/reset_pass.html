@@ -39,32 +39,49 @@
 					<form id="resetPasswordForm" action="/reset_pass" method="POST">
 						{{ form.hidden_tag() }}
 						{{ form.csrf_token }}
-						<div class="input-group mb-3">
+						<div class="mb-3">
+							<label for="code" class="form-label">Verification Code</label>
+							{% if form.code.errors %}
+							{{ form.code(class="form-control form-control-lg bg-light fs-6 is-invalid text-black",
+							placeholder="Verification Code") }}
+							<div class="invalid-feedback">
+								{% for error in form.code.errors %}
+								<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+							{% else %}
+							{{ form.code(class="form-control form-control-lg bg-light fs-6 text-black",
+							placeholder="Verification Code") }}
+							{% endif %}
+						</div>
+						<div class="mb-3">
+							<label for="password" class="form-label">New Password</label>
 							{% if form.password.errors %}
-							{{ form.password(class="form-control form-control-lg bg-light fs-6 is-invalid",
-							placeholder="password") }}
+							{{ form.password(class="form-control form-control-lg bg-light fs-6 is-invalid text-black",
+							placeholder="Password") }}
 							<div class="invalid-feedback">
 								{% for error in form.password.errors %}
 								<span>{{ error }}</span>
 								{% endfor %}
 							</div>
 							{% else %}
-							{{ form.password(class="form-control form-control-lg bg-light fs-6",
-							placeholder="password") }}
+							{{ form.password(class="form-control form-control-lg bg-light fs-6 text-black",
+							placeholder="Password") }}
 							{% endif %}
 						</div>
-						<div class="input-group mb-1">
+						<div class="mb-3">
+							<label for="confrimPassword" class="form-label">Confirm Password</label>
 							{%if form.confrimPassword.errors%}
-							{{ form.confrimPassword(class="form-control form-control-lg bg-light fs-6 is-invalid",
-							placeholder="confrim Password")}}
+							{{ form.confrimPassword(class="form-control form-control-lg bg-light fs-6 is-invalid text-black",
+							placeholder="Confirm Password")}}
 							<div class="invalid-feedback">
 								{% for error in form.confrimPassword.errors %}
 								<span>{{ error }}</span>
 								{% endfor %}
 							</div>
 							{% else %}
-							{{ form.confrimPassword(class="form-control form-control-lg bg-light fs-6",
-							placeholder="confrim Password")}}
+							{{ form.confrimPassword(class="form-control form-control-lg bg-light fs-6 text-black",
+							placeholder="Confirm Password")}}
 							{% endif %}
 						</div>
 						<div class="input-group mb-3">

@@ -59,6 +59,7 @@ class Teacher_SubjectForm(FlaskForm):
 
 
 class resetPass(FlaskForm):
+    code = StringField('Code', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     confrimPassword = PasswordField(
         'confrim password', validators=[DataRequired()])

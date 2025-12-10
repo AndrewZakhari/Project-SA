@@ -303,7 +303,10 @@ body.dark-mode .box-area {
     background: rgba(255,255,255,0.1);
     border-radius: 16px;
     margin-bottom: 20px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    align-items: center;
+    position: relative;
+    z-index: 100;
 }
 
 .sub-nav-link {
@@ -347,4 +350,19 @@ body.dark-mode .form-control:focus {
 
 body.dark-mode .form-control::placeholder {
     color: rgba(255,255,255,0.5);
+}
+
+/* --- Dark Mode for Modals --- */
+body.dark-mode .modal-content {
+    background: rgba(30, 30, 30, 0.95) !important;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+body.dark-mode .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+body.dark-mode .modal-title {
+    color: white;
 }

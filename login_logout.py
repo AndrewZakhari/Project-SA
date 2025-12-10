@@ -5,6 +5,8 @@ from DB_connect import mysql
 from DB_connect import app
 from flask_bcrypt import Bcrypt
 from forgotpassword import *
+from forgotpassword import mail
+from flask_mail import Message
 import string
 import random
 import uuid
@@ -60,15 +62,34 @@ def register():
 
             student_id = str(random.randint(1000000000, 9999999999))
             cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO student (id, first_name, middle_name,\n                        last_name, date_of_birth,\n                        email, password, profile_avatar, email_verified)"
-                        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, 1)",
+            cur.execute("INSERT INTO student (id, first_name, middle_name,\n                        last_name, date_of_birth,\n                        email, password, profile_avatar, email_verified)"                        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, 0)",
                         (student_id, firstName, middleName, lastName, date,
                          email, hashed_password, avatar))
             mysql.connection.commit()
             cur.close()
             
-            flash('Registration successful. Please login.', 'success')
-            return redirect('/login')
+            code = generate_random_code()
+            session['code'] = code
+            session['temp_mail'] = email
+            
+            print(f"\n\n[MOCK EMAIL] Verification Code for {email}: {code}\n\n")
+
+            try:
+                html_body = render_template('email_code.html',
+                                            verification_code=code,
+                                            message="Account Verification")
+                msg = Message(
+                    'Verification Code',
+                    sender='mostafa51mokhtar@gmail.com',
+                    recipients=[email],
+                    html=html_body
+                )
+                mail.send(msg)
+            except Exception as e:
+                print(f"Email sending failed (expected in dev): {e}")
+
+            flash('Registration successful. Please verify your email.', 'info')
+            return redirect('/verifyRegister')
     return render_template("registerStudent.html", form=form)
 
 
@@ -103,13 +124,33 @@ def registerTeacher():
             avatar = 'https://raw.githubusercontent.com/LORDyyyyy/my-portal/main/static/images/teacher.png'
             cur.execute(
                 "INSERT INTO teacher (first_name, last_name, date_of_birth, email, password, profile_avatar, email_verified) "
-                "VALUES (%s, %s, %s, %s, %s, %s, 1)",
+                "VALUES (%s, %s, %s, %s, %s, %s, 0)",
                 (firstName, lastName, date, email, hashed_password, avatar))
             mysql.connection.commit()
             cur.close()
             
-            flash('Registration successful. Please login.', 'success')
-            return redirect('/login')
+            code = generate_random_code()
+            session['code'] = code
+            session['temp_mail'] = email
+            
+            print(f"\n\n[MOCK EMAIL] Verification Code for {email}: {code}\n\n")
+
+            try:
+                html_body = render_template('email_code.html',
+                                            verification_code=code,
+                                            message="Account Verification")
+                msg = Message(
+                    'Verification Code',
+                    sender='mostafa51mokhtar@gmail.com',
+                    recipients=[email],
+                    html=html_body
+                )
+                mail.send(msg)
+            except Exception as e:
+                print(f"Email sending failed (expected in dev): {e}")
+
+            flash('Registration successful. Please verify your email.', 'info')
+            return redirect('/verifyRegister')
 
     return render_template("registerTeacher.html", form=form)
 
@@ -147,9 +188,33 @@ def logins():
                 existing_user_dict['password'], password)
             
             # Unpack only the first 4 values, ignoring email_verified for session
-            email, unused_password, id, role, _ = result
+            email, unused_password, id, role, email_verified = result
             
             if is_valid:
+                if not email_verified:
+                    code = generate_random_code()
+                    session['code'] = code
+                    session['temp_mail'] = email
+                    
+                    print(f"\n\n[MOCK EMAIL] Verification Code for {email}: {code}\n\n")
+
+                    try:
+                        html_body = render_template('email_code.html',
+                                                    verification_code=code,
+                                                    message="Account Verification")
+                        msg = Message(
+                            'Verification Code',
+                            sender='mostafa51mokhtar@gmail.com',
+                            recipients=[email],
+                            html=html_body
+                        )
+                        mail.send(msg)
+                    except Exception as e:
+                        print(f"Email sending failed (expected in dev): {e}")
+
+                    flash('Please verify your email.', 'warning')
+                    return redirect('/verifyRegister')
+
                 session['email'] = email
                 session['id'] = id
                 session['role'] = role
@@ -202,7 +267,8 @@ def verifyCode():
                     session.pop('code', None)
                     session.pop('temp_mail', None)
 
-                    return redirect('/home')
+                    flash('Email verified successfully. Please login.', 'success')
+                    return redirect('/login')
             else:
                 flash('Invalid verification code. Please try again.', 'danger')
     return render_template('verifyRegister.html', form=form)

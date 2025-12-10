@@ -50,3 +50,10 @@ body {
     margin-top: 10px;
     display: block;
 }
+.text-black{
+    color: black;
+}
+input::placeholder {
+    color: black;
+    opacity: 1;
+}
